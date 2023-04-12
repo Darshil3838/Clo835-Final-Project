@@ -36,8 +36,9 @@ jobs:
         IMAGE_TAG: latest
       run: |
         ls -ltra
+        cd app/
         # Docker build
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG  -f app/Dockerfile .
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
 
@@ -50,6 +51,7 @@ jobs:
         IMAGE_TAG: latest
       run: |
         ls -ltra
+        cd app/
         # Docker build
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG app/Dockerfile_sql .
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f Dockerfile_sql .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
