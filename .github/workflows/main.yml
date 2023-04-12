@@ -35,10 +35,9 @@ jobs:
         ECR_REPOSITORY: webapp
         IMAGE_TAG: latest
       run: |
-        cd app/webapp
         ls -ltra
         # Docker build
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG  -f app/webapp/Dockerfile .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
 
@@ -50,8 +49,7 @@ jobs:
         ECR_REPOSITORY: db_mysql
         IMAGE_TAG: latest
       run: |
-        cd app/mysql
         ls -ltra
         # Docker build
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG app/mysql/Dockerfile .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
