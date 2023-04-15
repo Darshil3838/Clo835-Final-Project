@@ -71,7 +71,9 @@ SUPPORTED_COLORS = ",".join(color_codes.keys())
 COLOR = random.choice(["red", "green", "blue", "blue2", "darkblue", "pink", "lime"])
 
 
-bg_url = { "1": "", "2": ""   }
+bg_url = { "1": "https://clo835.s3.amazonaws.com/2.jfif", 
+           "2": "https://clo835.s3.amazonaws.com/2.jfif"   }
+
 
 #Code to download file
 def download_file(bg, bucket):
@@ -151,7 +153,7 @@ def FetchData():
         cursor.close()
 
     return render_template("getempoutput.html", id=output["emp_id"], fname=output["first_name"],
-                           lname=output["last_name"], interest=output["primary_skills"], location=output["location"], color=color_codes[COLOR])
+                           lname=output["last_name"], interest=output["primary_skills"], location=output["location"], background=bg_url[BackGround])
 
 if __name__ == '__main__':
     
