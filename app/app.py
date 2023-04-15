@@ -8,12 +8,15 @@ from flask import send_file
 import io
 import boto3
 import botocore
+import matplotlib.image as mpimg
+import numpy as np
+
 
 app = Flask(__name__)
 
 DBHOST = os.environ.get("DBHOST") or "localhost"
 DBUSER = os.environ.get("DBUSER") or "root"
-DBPWD = os.environ.get("DBPWD") or "passwors"
+DBPWD = os.environ.get("DBPWD") or "password"
 DATABASE = os.environ.get("DATABASE") or "employees"
 COLOR_FROM_ENV = os.environ.get('APP_COLOR') or "lime"
 DBPORT = int(os.environ.get("DBPORT"))
@@ -26,11 +29,13 @@ AWS_REGION = os.environ.get("AWS_REGION")
 
 
 
+
 # Permission to S3 Bucket
 app.config['S3_BUCKET'] = S3_BUCKET
 app.config['AWS_ACCESS_KEY_ID'] = AWS_ACCESS_KEY_ID
 app.config['AWS_SECRET_ACCESS_KEY'] = AWS_SECRET_ACCESS_KEY
 app.config['AWS_SESSION_TOKEN'] = AWS_SESSION_TOKEN
+
 
 
 s3 = boto3.resource("s3",
@@ -39,6 +44,13 @@ s3 = boto3.resource("s3",
             aws_session_token=app.config['AWS_SESSION_TOKEN'],
             region_name=AWS_REGION
             )
+object = bucket.Object('1.jfif')
+image = tempfile.NamedTemporaryFile()
+
+
+
+            
+            
 
 # Create a connection to the MySQL database
 db_conn = connections.Connection(
@@ -71,32 +83,43 @@ SUPPORTED_COLORS = ",".join(color_codes.keys())
 COLOR = random.choice(["red", "green", "blue", "blue2", "darkblue", "pink", "lime"])
 
 
-bg_url = { "1": "https://clo835.s3.amazonaws.com/2.jfif", 
-           "2": "https://clo835.s3.amazonaws.com/2.jfif"   }
 
+    
+    
+    
+    
 
 #Code to download file
-def download_file(bg, bucket):
-    s3 = boto3.resource('s3')
-    output = f"/media/bg.jpg"
-    s3.Bucket(bucket).download_file(bg, output)
-    return output
 
-SUPPORTED_BG = ",".join(bg_url.keys())
+#def download_file(bg, bucket):
+ #   s3 = boto3.resource('s3')
+  #  output = f"/media/bg.jpg"
+   #return output
+
+#SUPPORTED_BG = ",".join(bg_url.keys())
+
+#BG = random.choice(["bg1", "bg2"])
 
 
-BackGround = random.choice(["1", "2"])
+def imageSource(bucket, object, image):
+    with open(image.name, 'wb') as f:
+        object.download_fileobj(f)
+        src = image.name    #dir/subdir/2015/12/7/img01.jpg
+        return src
+
+
+
 
 
 
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
-    return render_template('addemp.html', background=bg_url[BackGround])
+    return render_template('addemp.html', background=src)
 
 @app.route("/about", methods=['GET','POST'])
 def about():
-    return render_template('about.html', background=bg_url[BackGround])
+    return render_template('addemp.html', background=src)
     
 @app.route("/addemp", methods=['POST'])
 def AddEmp():
@@ -120,11 +143,11 @@ def AddEmp():
         cursor.close()
 
     print("all modification done...")
-    return render_template('addempoutput.html', name=emp_name, background=bg_url[BackGround])
+    return render_template('addemp.html', background=src)
 
 @app.route("/getemp", methods=['GET', 'POST'])
 def GetEmp():
-    return render_template("getemp.html", background=bg_url[BackGround])
+     return render_template("getemp.html", background=src)
 
 
 @app.route("/fetchdata", methods=['GET','POST'])
@@ -153,7 +176,7 @@ def FetchData():
         cursor.close()
 
     return render_template("getempoutput.html", id=output["emp_id"], fname=output["first_name"],
-                           lname=output["last_name"], interest=output["primary_skills"], location=output["location"], background=bg_url[BackGround])
+                           lname=output["last_name"], interest=output["primary_skills"], location=output["location"], background=src)
 
 if __name__ == '__main__':
     
