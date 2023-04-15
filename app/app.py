@@ -71,7 +71,7 @@ SUPPORTED_COLORS = ",".join(color_codes.keys())
 COLOR = random.choice(["red", "green", "blue", "blue2", "darkblue", "pink", "lime"])
 
 
-bg_url = {    }
+bg_url = { "1": "", "2": ""   }
 
 #Code to download file
 def download_file(bg, bucket):
@@ -83,18 +83,18 @@ def download_file(bg, bucket):
 SUPPORTED_BG = ",".join(bg_url.keys())
 
 
-
+BackGround = random.choice(["1", "2"])
 
 
 
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
-    return render_template('addemp.html', color=color_codes[COLOR])
+    return render_template('addemp.html', background=bg_url[BackGround])
 
 @app.route("/about", methods=['GET','POST'])
 def about():
-    return render_template('about.html', color=color_codes[COLOR])
+    return render_template('about.html', background=bg_url[BackGround])
     
 @app.route("/addemp", methods=['POST'])
 def AddEmp():
@@ -118,11 +118,11 @@ def AddEmp():
         cursor.close()
 
     print("all modification done...")
-    return render_template('addempoutput.html', name=emp_name, color=color_codes[COLOR])
+    return render_template('addempoutput.html', name=emp_name, background=bg_url[BackGround])
 
 @app.route("/getemp", methods=['GET', 'POST'])
 def GetEmp():
-    return render_template("getemp.html", color=color_codes[COLOR])
+    return render_template("getemp.html", background=bg_url[BackGround])
 
 
 @app.route("/fetchdata", methods=['GET','POST'])
