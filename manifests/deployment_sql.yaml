@@ -25,4 +25,8 @@ spec:
           protocol: TCP
         env:
         - name: MYSQL_ROOT_PASSWORD
-          value: pw
+          valueFrom:
+            secretKeyRef:
+              name: secrets
+              key: DBPWD
+          
