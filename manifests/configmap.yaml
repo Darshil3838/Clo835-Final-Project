@@ -4,4 +4,4 @@ metadata:
     name: bg-configmap
     namespace: final
 data:
-    BACKGROUND: "1.jfif"
+    BACKGROUND: "blue"
