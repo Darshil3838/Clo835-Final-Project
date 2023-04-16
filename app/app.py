@@ -19,7 +19,7 @@ DBHOST = os.environ.get("DBHOST") or "localhost"
 DBUSER = os.environ.get("DBUSER") or "root"
 DBPWD = os.environ.get("DBPWD") or "password"
 DATABASE = os.environ.get("DATABASE") or "employees"
-COLOR_FROM_ENV = os.environ.get('APP_COLOR') or "lime"
+BG_ENV = os.environ.get('BACKGROUND') or "lime"
 DBPORT = int(os.environ.get("DBPORT")) or "3306"
 S3_BUCKET = os.environ.get("S3_BUCKET") or "clo835a"
 AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
@@ -66,7 +66,7 @@ def download_file(default_image, S3_BUCKET):
 
 
 
-object = S3_BUCKET.Object('1.jfif')
+#object = S3_BUCKET.Object('1.jfif')
 #image = tempfile.NamedTemporaryFile()
 
             
@@ -135,11 +135,11 @@ COLOR = random.choice(["red", "green", "blue", "blue2", "darkblue", "pink", "lim
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
-    return render_template('addemp.html', background=src)
+    return render_template('addemp.html', background=background)
 
 @app.route("/about", methods=['GET','POST'])
 def about():
-    return render_template('addemp.html', background=src)
+    return render_template('addemp.html', background=background)
     
 @app.route("/addemp", methods=['POST'])
 def AddEmp():
@@ -163,11 +163,11 @@ def AddEmp():
         cursor.close()
 
     print("all modification done...")
-    return render_template('addemp.html', background=src)
+    return render_template('addemp.html', background=background)
 
 @app.route("/getemp", methods=['GET', 'POST'])
 def GetEmp():
-     return render_template("getemp.html", background=src)
+     return render_template("getemp.html", background=background)
 
 
 @app.route("/fetchdata", methods=['GET','POST'])
@@ -196,10 +196,11 @@ def FetchData():
         cursor.close()
 
     return render_template("getempoutput.html", id=output["emp_id"], fname=output["first_name"],
-                           lname=output["last_name"], interest=output["primary_skills"], location=output["location"], background=src)
+                           lname=output["last_name"], interest=output["primary_skills"], location=output["location"], background=background)
 
 if __name__ == '__main__':
-    
+    background=download_file(default_image, S3_BUCKET)
+    print(background)
     # Check for Command Line Parameters for color
     parser = argparse.ArgumentParser()
     parser.add_argument('--color', required=False)
@@ -208,11 +209,11 @@ if __name__ == '__main__':
     if args.color:
         print("Color from command line argument =" + args.color)
         COLOR = args.color
-        if COLOR_FROM_ENV:
-            print("A color was set through environment variable -" + COLOR_FROM_ENV + ". However, color from command line argument takes precendence.")
-    elif COLOR_FROM_ENV:
-        print("No Command line argument. Color from environment variable =" + COLOR_FROM_ENV)
-        COLOR = COLOR_FROM_ENV
+        if BG_ENV:
+            print("A color was set through environment variable -" + BG_ENV + ". However, color from command line argument takes precendence.")
+    elif BG_ENV:
+        print("No Command line argument. Color from environment variable =" + BG_ENV)
+        COLOR = BG_ENV
     else:
         print("No command line argument or environment variable. Picking a Random Color =" + COLOR)
 
