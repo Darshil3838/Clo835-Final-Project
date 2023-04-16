@@ -5,7 +5,7 @@ metadata:
     app: mysql
     owner: Group9
   name: mysql
-  namespace: group9
+  namespace: final
 spec:
   selector:
     matchLabels:
@@ -29,4 +29,11 @@ spec:
             secretKeyRef:
               name: secrets
               key: DBPWD
-          
+        volumeMounts:
+            - name: mysql
+              mountPath: /var/lib/mysql      
+      volumes:
+      - name: mysql
+        persistentVolumeClaim:
+          claimName: mysql
+      
