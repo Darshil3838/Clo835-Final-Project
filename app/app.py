@@ -108,7 +108,17 @@ def imageSource(bucket, object, image):
     return src
 
 
-src = imageSource(S3_BUCKET, s3_object, "BG_ENV")
+def download_file("1.jifi", S3_BUCKET):
+    """
+    Function to download a given file from an S3 bucket
+    """
+    s3 = boto3.resource('s3')
+    output = f"downloads/{"1.jify"}"
+    s3.Bucket(bucket).download_file(file_name, output)
+
+    return output
+
+output = imageSource(S3_BUCKET, "1.jifi")
 
 
 
