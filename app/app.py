@@ -25,6 +25,8 @@ AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
 AWS_SESSION_TOKEN = os.environ.get("AWS_SESSION_TOKEN")
 AWS_REGION = os.environ.get("AWS_REGION")
+BG_ENV = os.environ.get('BACKGROUND') or "bg1"
+GROUP_NAME = os.environ.get('GROUP_NAME') or "Group9"
 
 
 
@@ -44,10 +46,8 @@ s3 = boto3.resource("s3",
             aws_session_token=app.config['AWS_SESSION_TOKEN'],
             region_name=AWS_REGION
             )
-object = bucket.Object('1.jfif')
-image = tempfile.NamedTemporaryFile()
-
-
+object = S3_BUCKET.Object('1.jfif')
+#image = tempfile.NamedTemporaryFile()
 
             
             
@@ -103,11 +103,12 @@ COLOR = random.choice(["red", "green", "blue", "blue2", "darkblue", "pink", "lim
 
 def imageSource(bucket, object, image):
     with open(image.name, 'wb') as f:
-        object.download_fileobj(f)
-        src = image.name    #dir/subdir/2015/12/7/img01.jpg
-        return src
+    object.download_fileobj(f)
+    src = image.name    #dir/subdir/2015/12/7/img01.jpg
+    return src
 
 
+src = imageSource(S3_BUCKET, s3_object, "BG_ENV")
 
 
 
