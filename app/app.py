@@ -1,16 +1,10 @@
 from flask import Flask, render_template, request
+import flask
 from pymysql import connections
 import os
-import flask
 import random
 import argparse
-from flask import redirect
-from flask import send_file
-import io
 import boto3
-import botocore
-import matplotlib.image as mpimg
-import numpy as np
 
 
 app = Flask(__name__)
@@ -31,10 +25,10 @@ default_image = "1.jfif"
 
 
 # Permission to S3 Bucket
-app.config['S3_BUCKET'] = S3_BUCKET
-app.config['AWS_ACCESS_KEY_ID'] = AWS_ACCESS_KEY_ID
-app.config['AWS_SECRET_ACCESS_KEY'] = AWS_SECRET_ACCESS_KEY
-app.config['AWS_SESSION_TOKEN'] = AWS_SESSION_TOKEN
+#app.config['S3_BUCKET'] = S3_BUCKET
+#app.config['AWS_ACCESS_KEY_ID'] = AWS_ACCESS_KEY_ID
+#app.config['AWS_SECRET_ACCESS_KEY'] = AWS_SECRET_ACCESS_KEY
+#app.config['AWS_SESSION_TOKEN'] = AWS_SESSION_TOKEN
 
 
 
@@ -53,15 +47,22 @@ def download_file(default_image, S3_BUCKET):
     imagepathg9 = os.path.join(directory, "1.jfif")
     print(imagepathg9)
     
+  #  s3 = boto3.resource("s3",
+   #         aws_access_key_id=app.config['AWS_ACCESS_KEY_ID'],
+   #         aws_secret_access_key=app.config['AWS_SECRET_ACCESS_KEY'],
+    #        aws_session_token=app.config['AWS_SESSION_TOKEN'],
+   #         region_name=AWS_REGION
+   #         )
+            
+            
     s3 = boto3.resource("s3",
-            aws_access_key_id=app.config['AWS_ACCESS_KEY_ID'],
-            aws_secret_access_key=app.config['AWS_SECRET_ACCESS_KEY'],
-            aws_session_token=app.config['AWS_SESSION_TOKEN'],
-            region_name=AWS_REGION
-            )
+            aws_access_key_id='ASIAZHTMUDTZTYIBEYEB',
+            aws_secret_access_key='df9DWJ3CPu51mGHja6bzWXfxnB5V76ryoLPNdq0w',
+            aws_session_token='FwoGZXIvYXdzEEcaDOax0ZTIUllrfcEqQCLEAR2sIglm3p7lEUgi1qCYYnnKGuLRVismvu+xI+6bDKGUfmCuesho6BMmB/kKGAmSSekQg22DUjz43lSfTia8+grIkqMmWoN/HNfsSrEO8j2bESZYNoAdRHFXwNW4R3B5J/ASE+Bw2WXO6eGSE6aJAoQc7EyBy6F56WkSmeRbdYPA62IqvsxwT5uBse4FPHlWYI4tz+rceSyqDZ8333lOiSS2Oas116oqZbQHdwoIog5M8Q8052pasjYobnBkqBJ5W+rY9Hkoy+jvoQYyLa/MPkK3GL3x2N2BYSxJVPtPxeSfw8+HrwOzFlu1UAdUcicTo3GPYPr3azztLg=='
+            )        
             
     print({S3_BUCKET})
-    s3.Bucket(S3_BUCKET).download_file(default_image, imagepathg9)
+    s3.Bucket(S3_BUCKET).download_file("1.jfif", imagepathg9)
     return imagepathg9
 
 
@@ -222,4 +223,4 @@ if __name__ == '__main__':
         print("Color not supported. Received '" + COLOR + "' expected one of " + SUPPORTED_COLORS)
         exit(1)
 
-    app.run(host='0.0.0.0',port=8080,debug=True)
+    app.run(host='0.0.0.0',port=81,debug=True)
