@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 from pymysql import connections
 import os
+import flask
 import random
 import argparse
 from flask import redirect
@@ -19,16 +20,13 @@ DBUSER = os.environ.get("DBUSER") or "root"
 DBPWD = os.environ.get("DBPWD") or "password"
 DATABASE = os.environ.get("DATABASE") or "employees"
 COLOR_FROM_ENV = os.environ.get('APP_COLOR') or "lime"
-DBPORT = int(os.environ.get("DBPORT"))
-S3_BUCKET = os.environ.get("S3_BUCKET")
+DBPORT = int(os.environ.get("DBPORT")) or "3306"
+S3_BUCKET = os.environ.get("S3_BUCKET") or "clo835a"
 AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
 AWS_SESSION_TOKEN = os.environ.get("AWS_SESSION_TOKEN")
 AWS_REGION = os.environ.get("AWS_REGION")
-BG_ENV = os.environ.get('BACKGROUND') or "bg1"
-GROUP_NAME = os.environ.get('GROUP_NAME') or "Group9"
-
-
+default_image = "1.jfif"
 
 
 
@@ -40,12 +38,34 @@ app.config['AWS_SESSION_TOKEN'] = AWS_SESSION_TOKEN
 
 
 
-s3 = boto3.resource("s3",
+
+def download_file(default_image, S3_BUCKET):
+    """
+    Function to download a given file from an S3 bucket
+    
+    """
+    
+    directory = "static"
+    if os.path.exists(directory) and os.path.isdir(directory):
+        print("Directory does not exist")
+    else:
+        os.makedirs(directory)
+    imagepathg9 = os.path.join(directory, "1.jfif")
+    print(imagepathg9)
+    
+    s3 = boto3.resource("s3",
             aws_access_key_id=app.config['AWS_ACCESS_KEY_ID'],
             aws_secret_access_key=app.config['AWS_SECRET_ACCESS_KEY'],
             aws_session_token=app.config['AWS_SESSION_TOKEN'],
             region_name=AWS_REGION
             )
+            
+    print({S3_BUCKET})
+    s3.Bucket(S3_BUCKET).download_file(default_image, imagepathg9)
+    return imagepathg9
+
+
+
 object = S3_BUCKET.Object('1.jfif')
 #image = tempfile.NamedTemporaryFile()
 
@@ -101,24 +121,13 @@ COLOR = random.choice(["red", "green", "blue", "blue2", "darkblue", "pink", "lim
 #BG = random.choice(["bg1", "bg2"])
 
 
-def imageSource(bucket, object, image):
-    with open(image.name, 'wb') as f:
-    object.download_fileobj(f)
-    src = image.name    #dir/subdir/2015/12/7/img01.jpg
-    return src
+#def imageSource(bucket, object, image):
+#    with open(image.name, 'wb') as f:
+#    object.download_fileobj(f)
+#    src = image.name    #dir/subdir/2015/12/7/img01.jpg
+#    return src
 
 
-def download_file("1.jifi", S3_BUCKET):
-    """
-    Function to download a given file from an S3 bucket
-    """
-    s3 = boto3.resource('s3')
-    output = f"downloads/{"1.jify"}"
-    s3.Bucket(bucket).download_file(file_name, output)
-
-    return output
-
-output = imageSource(S3_BUCKET, "1.jifi")
 
 
 
