@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+  namespace: final
+  labels:
+    app: employees
+    owner: Group9
+spec:
+  selector:
+    matchLabels:
+      app: employees
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: employees
+    spec:
+      containers:
+      - name: latest
+        image: 372159200162.dkr.ecr.us-east-1.amazonaws.com/web:latest
+        ports:
+        - name: http
+          containerPort: 81
+          protocol: TCP
+        env:
+        - name: DBHOST
+          value: "clusterip.final.svc.cluster.local"
+        - name: DBPORT
+          value: "3306"
+        - name: DBUSER
+          valueFrom:
+            secretKeyRef:
+              name: secrets
+              key: DBUSER
+        - name: DBPWD
+          valueFrom:
+            secretKeyRef:
+              name: secrets
+              key: DBPWD
+        - name: BACKGROUND
+          valueFrom:
+            configMapKeyRef:
+              name: bg-configmap
+              key: BACKGROUND

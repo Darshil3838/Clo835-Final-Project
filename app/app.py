@@ -11,17 +11,18 @@ app = Flask(__name__)
 
 DBHOST = os.environ.get("DBHOST") or "localhost"
 DBUSER = os.environ.get("DBUSER") or "root"
-DBPWD = os.environ.get("DBPWD") or "password"
+DBPWD = os.environ.get("DBPWD") or "pw"
 DATABASE = os.environ.get("DATABASE") or "employees"
-BG_ENV = os.environ.get('BACKGROUND') or "lime"
+COLOR_FROM_ENV = os.environ.get('APP_COLOR') or "lime"
 DBPORT = int(os.environ.get("DBPORT")) or "3306"
-S3_BUCKET = os.environ.get("S3_BUCKET") or "clo835a"
+S3_BUCKET = os.environ.get("S3_BUCKET") or "finalg13s3"
+BG_ENV = os.environ.get('BACKGROUND') or "blue"
+GROUP_NAME = os.environ.get('GROUP_NAME') or "Group9"
 AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
 AWS_SESSION_TOKEN = os.environ.get("AWS_SESSION_TOKEN")
 AWS_REGION = os.environ.get("AWS_REGION")
-default_image = "1.jfif"
-
+default_image = os.environ.get("IMAGE") or "1.jfif"
 
 
 # Permission to S3 Bucket
@@ -101,7 +102,7 @@ color_codes = {
 SUPPORTED_COLORS = ",".join(color_codes.keys())
 
 # Generate a random color
-COLOR = random.choice(["red", "green", "blue", "blue2", "darkblue", "pink", "lime"])
+#COLOR = random.choice(["red", "green", "blue", "blue2", "darkblue", "pink", "lime"])
 
 
 
