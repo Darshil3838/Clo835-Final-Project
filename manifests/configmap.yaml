@@ -5,3 +5,5 @@ metadata:
     namespace: final
 data:
     BACKGROUND: "blue"
+    GROUP_NAME: "Group9"
+    default_image: "1.jfif"
