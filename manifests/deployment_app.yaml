@@ -16,6 +16,7 @@ spec:
       labels:
         app: employees
     spec:
+      serviceAccountName: group9-serviceaccount
       containers:
       - name: latest
         image: 372159200162.dkr.ecr.us-east-1.amazonaws.com/web:latest
