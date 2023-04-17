@@ -15,7 +15,7 @@ DBPWD = os.environ.get("DBPWD") or "pw"
 DATABASE = os.environ.get("DATABASE") or "employees"
 COLOR_FROM_ENV = os.environ.get('APP_COLOR') or "lime"
 DBPORT = int(os.environ.get("DBPORT")) or "3306"
-S3_BUCKET = os.environ.get("S3_BUCKET") or "finalg13s3"
+S3_BUCKET = os.environ.get("S3_BUCKET") or "clo835a"
 BG_ENV = os.environ.get('BACKGROUND') or "blue"
 GROUP_NAME = os.environ.get('GROUP_NAME') or "Group9"
 AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
@@ -45,7 +45,7 @@ def download_file(default_image, S3_BUCKET):
         print("Directory does not exist")
     else:
         os.makedirs(directory)
-    imagepathg9 = os.path.join(directory, "1.jfif")
+    imagepathg9 = os.path.join(directory, default_image)
     print(imagepathg9)
     
   #  s3 = boto3.resource("s3",
@@ -57,13 +57,13 @@ def download_file(default_image, S3_BUCKET):
             
             
     s3 = boto3.resource("s3",
-            aws_access_key_id='ASIAZHTMUDTZTYIBEYEB',
-            aws_secret_access_key='df9DWJ3CPu51mGHja6bzWXfxnB5V76ryoLPNdq0w',
-            aws_session_token='FwoGZXIvYXdzEEcaDOax0ZTIUllrfcEqQCLEAR2sIglm3p7lEUgi1qCYYnnKGuLRVismvu+xI+6bDKGUfmCuesho6BMmB/kKGAmSSekQg22DUjz43lSfTia8+grIkqMmWoN/HNfsSrEO8j2bESZYNoAdRHFXwNW4R3B5J/ASE+Bw2WXO6eGSE6aJAoQc7EyBy6F56WkSmeRbdYPA62IqvsxwT5uBse4FPHlWYI4tz+rceSyqDZ8333lOiSS2Oas116oqZbQHdwoIog5M8Q8052pasjYobnBkqBJ5W+rY9Hkoy+jvoQYyLa/MPkK3GL3x2N2BYSxJVPtPxeSfw8+HrwOzFlu1UAdUcicTo3GPYPr3azztLg=='
+            aws_access_key_id='ASIAZHTMUDTZTZ62WGPE',
+            aws_secret_access_key='jHCHob6AOsYtoDjjHftsFY8Bko62kt4UOAr58hYj',
+            aws_session_token='FwoGZXIvYXdzEFAaDEd1YJjY2WjsVjzmZiLEAW1iWqllW3BPFZMbAFxvDHRe8p060Akuo4fixKu0yHWHZo9EWTre7cq8ZMRlPUJVXHtaXJDZEHfJZva6nYz7vCBJ93Rr0En1Z5e/0Yoh8jPbED1ev0uCCM7NTYpD4uQdvznWN9+W9vJSQZyBbdvPudNj0/gHsI5PDS0F37RGR7EQvaVlN599oeWoO/jX1vxYx2/dFdZCMwO+nXyxqIJ5VAmqM90YRCrDzbvjwcw1OgnyeqEEdyTAFON96YMWHK33vM0YjFEo4vXxoQYyLYoiyHqt561iivuQwTZUiCSBf7aWKNCpL+LxLahpjw06ZN6CvnvdamO/w72HMA=='
             )        
             
     print({S3_BUCKET})
-    s3.Bucket(S3_BUCKET).download_file("1.jfif", imagepathg9)
+    s3.Bucket(S3_BUCKET).download_file(default_image, imagepathg9)
     return imagepathg9
 
 
@@ -137,11 +137,11 @@ SUPPORTED_COLORS = ",".join(color_codes.keys())
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
-    return render_template('addemp.html', background=background)
+    return render_template('addemp.html', background=background, GROUP_NAME=GROUP_NAME)
 
 @app.route("/about", methods=['GET','POST'])
 def about():
-    return render_template('addemp.html', background=background)
+    return render_template('addemp.html', background=background, GROUP_NAME=GROUP_NAME )
     
 @app.route("/addemp", methods=['POST'])
 def AddEmp():
@@ -165,11 +165,11 @@ def AddEmp():
         cursor.close()
 
     print("all modification done...")
-    return render_template('addemp.html', background=background)
+    return render_template('addemp.html', background=background, GROUP_NAME=GROUP_NAME)
 
 @app.route("/getemp", methods=['GET', 'POST'])
 def GetEmp():
-     return render_template("getemp.html", background=background)
+     return render_template("getemp.html", background=background, GROUP_NAME=GROUP_NAME)
 
 
 @app.route("/fetchdata", methods=['GET','POST'])
@@ -198,7 +198,7 @@ def FetchData():
         cursor.close()
 
     return render_template("getempoutput.html", id=output["emp_id"], fname=output["first_name"],
-                           lname=output["last_name"], interest=output["primary_skills"], location=output["location"], background=background)
+                           lname=output["last_name"], interest=output["primary_skills"], location=output["location"], background=background, GROUP_NAME=GROUP_NAME)
 
 if __name__ == '__main__':
     background=download_file(default_image, S3_BUCKET)
