@@ -15,11 +15,11 @@ DBPWD = os.environ.get("DBPWD") or "pw"
 DATABASE = os.environ.get("DATABASE") or "employees"
 COLOR_FROM_ENV = os.environ.get('APP_COLOR') or "lime"
 DBPORT = int(os.environ.get("DBPORT")) or "3306"
-S3_BUCKET = os.environ.get("S3_BUCKET") or "clo835a"
+S3_BUCKET = os.environ.get("S3_BUCKET") or "finalg9s3"
 BG_ENV = os.environ.get('BACKGROUND') or "blue"
 GROUP_NAME = os.environ.get('GROUP_NAME') or "Group9"
 AWS_REGION = os.environ.get("AWS_REGION")
-default_image = os.environ.get("IMAGE") or "1.jfif"
+default_image = os.environ.get("IMAGE") or "g901.jpg"
 
 
 
