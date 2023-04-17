@@ -4,6 +4,5 @@ metadata:
     name: bg-configmap
     namespace: final
 data:
-    BACKGROUND: "blue"
-    GROUP_NAME: "Group13"
-    default_image: "g902.jpg"
+    GROUP_NAME: "Group09"
+    default_image: "g901.jpg"
