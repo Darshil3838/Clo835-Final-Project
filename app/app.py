@@ -18,27 +18,13 @@ DBPORT = int(os.environ.get("DBPORT")) or "3306"
 S3_BUCKET = os.environ.get("S3_BUCKET") or "clo835a"
 BG_ENV = os.environ.get('BACKGROUND') or "blue"
 GROUP_NAME = os.environ.get('GROUP_NAME') or "Group9"
-AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
-AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
-AWS_SESSION_TOKEN = os.environ.get("AWS_SESSION_TOKEN")
 AWS_REGION = os.environ.get("AWS_REGION")
 default_image = os.environ.get("IMAGE") or "1.jfif"
 
 
-# Permission to S3 Bucket
-#app.config['S3_BUCKET'] = S3_BUCKET
-#app.config['AWS_ACCESS_KEY_ID'] = AWS_ACCESS_KEY_ID
-#app.config['AWS_SECRET_ACCESS_KEY'] = AWS_SECRET_ACCESS_KEY
-#app.config['AWS_SESSION_TOKEN'] = AWS_SESSION_TOKEN
-
-
-
 
 def download_file(default_image, S3_BUCKET):
-    """
-    Function to download a given file from an S3 bucket
-    
-    """
+
     
     directory = "static"
     if os.path.exists(directory) and os.path.isdir(directory):
@@ -47,32 +33,11 @@ def download_file(default_image, S3_BUCKET):
         os.makedirs(directory)
     imagepathg9 = os.path.join(directory, default_image)
     print(imagepathg9)
-    
-  #  s3 = boto3.resource("s3",
-   #         aws_access_key_id=app.config['AWS_ACCESS_KEY_ID'],
-   #         aws_secret_access_key=app.config['AWS_SECRET_ACCESS_KEY'],
-    #        aws_session_token=app.config['AWS_SESSION_TOKEN'],
-   #         region_name=AWS_REGION
-   #         )
-            
-            
-    s3 = boto3.resource("s3",
-            aws_access_key_id='ASIAZHTMUDTZTZ62WGPE',
-            aws_secret_access_key='jHCHob6AOsYtoDjjHftsFY8Bko62kt4UOAr58hYj',
-            aws_session_token='FwoGZXIvYXdzEFAaDEd1YJjY2WjsVjzmZiLEAW1iWqllW3BPFZMbAFxvDHRe8p060Akuo4fixKu0yHWHZo9EWTre7cq8ZMRlPUJVXHtaXJDZEHfJZva6nYz7vCBJ93Rr0En1Z5e/0Yoh8jPbED1ev0uCCM7NTYpD4uQdvznWN9+W9vJSQZyBbdvPudNj0/gHsI5PDS0F37RGR7EQvaVlN599oeWoO/jX1vxYx2/dFdZCMwO+nXyxqIJ5VAmqM90YRCrDzbvjwcw1OgnyeqEEdyTAFON96YMWHK33vM0YjFEo4vXxoQYyLYoiyHqt561iivuQwTZUiCSBf7aWKNCpL+LxLahpjw06ZN6CvnvdamO/w72HMA=='
-            )        
+    s3 = boto3.resource("s3",)        
             
     print({S3_BUCKET})
     s3.Bucket(S3_BUCKET).download_file(default_image, imagepathg9)
     return imagepathg9
-
-
-
-#object = S3_BUCKET.Object('1.jfif')
-#image = tempfile.NamedTemporaryFile()
-
-            
-            
 
 # Create a connection to the MySQL database
 db_conn = connections.Connection(
@@ -103,36 +68,6 @@ SUPPORTED_COLORS = ",".join(color_codes.keys())
 
 # Generate a random color
 #COLOR = random.choice(["red", "green", "blue", "blue2", "darkblue", "pink", "lime"])
-
-
-
-    
-    
-    
-    
-
-#Code to download file
-
-#def download_file(bg, bucket):
- #   s3 = boto3.resource('s3')
-  #  output = f"/media/bg.jpg"
-   #return output
-
-#SUPPORTED_BG = ",".join(bg_url.keys())
-
-#BG = random.choice(["bg1", "bg2"])
-
-
-#def imageSource(bucket, object, image):
-#    with open(image.name, 'wb') as f:
-#    object.download_fileobj(f)
-#    src = image.name    #dir/subdir/2015/12/7/img01.jpg
-#    return src
-
-
-
-
-
 
 
 @app.route("/", methods=['GET', 'POST'])
@@ -198,7 +133,7 @@ def FetchData():
         cursor.close()
 
     return render_template("getempoutput.html", id=output["emp_id"], fname=output["first_name"],
-                           lname=output["last_name"], interest=output["primary_skills"], location=output["location"], background=background, GROUP_NAME=GROUP_NAME)
+                           lname=output["last_name"], interest=output["primary_skills"], location=output["location"], background=background, GROUP_NAME=GROUP_NAME )
 
 if __name__ == '__main__':
     background=download_file(default_image, S3_BUCKET)
