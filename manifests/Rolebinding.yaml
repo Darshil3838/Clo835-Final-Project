@@ -1,0 +1,12 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: group9-rolebinding
+  namespace: final
+subjects:
+- kind: ServiceAccount
+  name: group9
+roleRef:
+  kind: Role
+  name: group9
+  apiGroup: rbac.authorization.k8s.io
