@@ -39,8 +39,8 @@ spec:
             secretKeyRef:
               name: secrets
               key: DBPWD
-        - name: BACKGROUND
+        - name: default_image
           valueFrom:
             configMapKeyRef:
               name: bg-configmap
-              key: BACKGROUND
+              key: default_image
